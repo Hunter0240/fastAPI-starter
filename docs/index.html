@@ -24,7 +24,7 @@
     }
 
     @media (prefers-color-scheme: dark) {
-      :root {
+      :root:not([data-mode="light"]) {
         --text-primary: #e4e4ed;
         --text-secondary: #9e9eb8;
         --surface: #131320;
@@ -36,6 +36,59 @@
         --warning: #fbbf24;
         --error: #f87171;
         --code-bg: #1e1e32;
+      }
+    }
+
+    :root[data-mode="dark"] {
+      --text-primary: #e4e4ed;
+      --text-secondary: #9e9eb8;
+      --surface: #131320;
+      --surface-alt: #1a1a2e;
+      --border: #2a2a40;
+      --accent: #818cf8;
+      --accent-hover: #a5b4fc;
+      --success: #4ade80;
+      --warning: #fbbf24;
+      --error: #f87171;
+      --code-bg: #1e1e32;
+    }
+
+    :root[data-accent="teal"] {
+      --accent: #0d9488; --accent-hover: #0f766e;
+    }
+    :root[data-mode="dark"][data-accent="teal"],
+    :root:not([data-mode="light"])[data-accent="teal"] {
+      --accent: #2dd4bf; --accent-hover: #5eead4;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-mode="light"])[data-accent="teal"] {
+        --accent: #2dd4bf; --accent-hover: #5eead4;
+      }
+    }
+
+    :root[data-accent="rose"] {
+      --accent: #be123c; --accent-hover: #9f1239;
+    }
+    :root[data-mode="dark"][data-accent="rose"],
+    :root:not([data-mode="light"])[data-accent="rose"] {
+      --accent: #fb7185; --accent-hover: #fda4af;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-mode="light"])[data-accent="rose"] {
+        --accent: #fb7185; --accent-hover: #fda4af;
+      }
+    }
+
+    :root[data-accent="amber"] {
+      --accent: #b45309; --accent-hover: #92400e;
+    }
+    :root[data-mode="dark"][data-accent="amber"],
+    :root:not([data-mode="light"])[data-accent="amber"] {
+      --accent: #fbbf24; --accent-hover: #fcd34d;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-mode="light"])[data-accent="amber"] {
+        --accent: #fbbf24; --accent-hover: #fcd34d;
       }
     }
 
@@ -109,8 +162,15 @@
     .badge-put { background: var(--warning); color: #fff; }
     .badge-delete { background: var(--error); color: #fff; }
 
+    :root[data-mode="dark"] .badge-get,
+    :root[data-mode="dark"] .badge-post,
+    :root[data-mode="dark"] .badge-put,
+    :root[data-mode="dark"] .badge-delete { color: #131320; }
     @media (prefers-color-scheme: dark) {
-      .badge-get, .badge-post, .badge-put, .badge-delete { color: #131320; }
+      :root:not([data-mode="light"]) .badge-get,
+      :root:not([data-mode="light"]) .badge-post,
+      :root:not([data-mode="light"]) .badge-put,
+      :root:not([data-mode="light"]) .badge-delete { color: #131320; }
     }
 
     .badge-auth {
@@ -324,9 +384,11 @@
     .response-2xx { background: #dcfce7; color: #166534; }
     .response-4xx { background: #fef2f2; color: #991b1b; }
 
+    :root[data-mode="dark"] .response-2xx { background: #14532d; color: #bbf7d0; }
+    :root[data-mode="dark"] .response-4xx { background: #450a0a; color: #fecaca; }
     @media (prefers-color-scheme: dark) {
-      .response-2xx { background: #14532d; color: #bbf7d0; }
-      .response-4xx { background: #450a0a; color: #fecaca; }
+      :root:not([data-mode="light"]) .response-2xx { background: #14532d; color: #bbf7d0; }
+      :root:not([data-mode="light"]) .response-4xx { background: #450a0a; color: #fecaca; }
     }
 
     .github-link {
@@ -337,6 +399,115 @@
     }
 
     .github-link:hover { text-decoration: underline; }
+
+    .settings-wrap {
+      position: relative;
+    }
+
+    .settings-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .settings-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--text-secondary);
+    }
+
+    .settings-panel {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      width: 240px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+      z-index: 200;
+      padding: 1rem;
+    }
+
+    .settings-panel.open { display: block; }
+
+    .settings-section { margin-bottom: 1rem; }
+    .settings-section:last-child { margin-bottom: 0; }
+
+    .settings-label {
+      font-size: 0.625rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .mode-btns {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 0.375rem 0;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      background: var(--surface);
+      color: var(--text-secondary);
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .mode-btn + .mode-btn { border-left: 1px solid var(--border); }
+
+    .mode-btn.active {
+      background: var(--text-primary);
+      color: var(--surface);
+    }
+
+    .accent-btns {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .accent-swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      padding: 0;
+      background: none;
+      transition: border-color 0.15s;
+    }
+
+    .accent-swatch.active { border-color: var(--text-primary); }
+
+    .accent-swatch-inner {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+    .settings-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0.75rem 0;
+    }
 
     .mobile-nav-toggle {
       display: none;
@@ -386,6 +557,34 @@
     <button class="mobile-nav-toggle" aria-expanded="false" aria-controls="sidebar-nav" onclick="toggleMobileNav()">Menu</button>
     <span class="badge badge-version">v1.0.0</span>
     <a href="https://github.com/Hunter0240/fastAPI-starter" class="github-link">GitHub</a>
+    <div class="settings-wrap">
+      <button class="settings-btn" aria-label="Settings" aria-expanded="false" onclick="toggleSettings(this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+      <div class="settings-panel" id="settings-panel" role="dialog" aria-label="Settings">
+        <div class="settings-section">
+          <div class="settings-label">Mode</div>
+          <div class="mode-btns">
+            <button class="mode-btn" data-mode="auto" onclick="setMode('auto')">Auto</button>
+            <button class="mode-btn" data-mode="light" onclick="setMode('light')">Light</button>
+            <button class="mode-btn" data-mode="dark" onclick="setMode('dark')">Dark</button>
+          </div>
+        </div>
+        <hr class="settings-divider">
+        <div class="settings-section">
+          <div class="settings-label">Accent</div>
+          <div class="accent-btns">
+            <button class="accent-swatch" data-accent="indigo" title="Indigo" onclick="setAccent('indigo')"><span class="accent-swatch-inner" style="background:#4338ca"></span></button>
+            <button class="accent-swatch" data-accent="teal" title="Teal" onclick="setAccent('teal')"><span class="accent-swatch-inner" style="background:#0d9488"></span></button>
+            <button class="accent-swatch" data-accent="rose" title="Rose" onclick="setAccent('rose')"><span class="accent-swatch-inner" style="background:#be123c"></span></button>
+            <button class="accent-swatch" data-accent="amber" title="Amber" onclick="setAccent('amber')"><span class="accent-swatch-inner" style="background:#b45309"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -676,6 +875,75 @@ document.getElementById('sidebar-nav').addEventListener('click', function(e) {
     document.querySelector('.mobile-nav-toggle').setAttribute('aria-expanded', 'false');
   }
 });
+
+function toggleSettings(btn) {
+  var panel = document.getElementById('settings-panel');
+  var isOpen = panel.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+}
+
+document.addEventListener('mousedown', function(e) {
+  var wrap = document.querySelector('.settings-wrap');
+  var panel = document.getElementById('settings-panel');
+  if (wrap && !wrap.contains(e.target) && panel.classList.contains('open')) {
+    panel.classList.remove('open');
+    wrap.querySelector('.settings-btn').setAttribute('aria-expanded', 'false');
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    var panel = document.getElementById('settings-panel');
+    if (panel.classList.contains('open')) {
+      panel.classList.remove('open');
+      document.querySelector('.settings-btn').setAttribute('aria-expanded', 'false');
+      document.querySelector('.settings-btn').focus();
+    }
+  }
+});
+
+function setMode(mode) {
+  var root = document.documentElement;
+  if (mode === 'auto') {
+    root.removeAttribute('data-mode');
+  } else {
+    root.setAttribute('data-mode', mode);
+  }
+  localStorage.setItem('docs-mode', mode);
+  updateModeButtons(mode);
+}
+
+function setAccent(accent) {
+  var root = document.documentElement;
+  if (accent === 'indigo') {
+    root.removeAttribute('data-accent');
+  } else {
+    root.setAttribute('data-accent', accent);
+  }
+  localStorage.setItem('docs-accent', accent);
+  updateAccentButtons(accent);
+}
+
+function updateModeButtons(mode) {
+  document.querySelectorAll('.mode-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+  });
+}
+
+function updateAccentButtons(accent) {
+  document.querySelectorAll('.accent-swatch').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-accent') === accent);
+  });
+}
+
+(function initSettings() {
+  var mode = localStorage.getItem('docs-mode') || 'auto';
+  var accent = localStorage.getItem('docs-accent') || 'indigo';
+  if (mode !== 'auto') document.documentElement.setAttribute('data-mode', mode);
+  if (accent !== 'indigo') document.documentElement.setAttribute('data-accent', accent);
+  updateModeButtons(mode);
+  updateAccentButtons(accent);
+})();
 </script>
 
 </body>
