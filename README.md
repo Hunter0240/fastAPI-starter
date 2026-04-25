@@ -24,16 +24,26 @@ A batteries-included FastAPI project template with authentication, database migr
 - SQLAlchemy 2.0 (async) + Alembic
 - PostgreSQL (prod) / SQLite (dev)
 - Pydantic v2
-- JWT (python-jose + passlib)
+- JWT (python-jose + bcrypt)
 - Docker + Docker Compose
 - pytest + httpx
 
 ## Quick Start
 
 ```bash
+pip install -r requirements.txt
 cp .env.example .env
+python seed.py          # create demo user + sample data
+uvicorn app.main:app    # API docs at http://localhost:8000/docs
+```
+
+Login with `demo@example.com` / `demo1234` at `/auth/login`, then use the access token to hit `/items`.
+
+### Docker (production)
+
+```bash
+# Update DATABASE_URL in .env to PostgreSQL
 docker compose up --build
-# API docs at http://localhost:8000/docs
 ```
 
 ## API Endpoints
@@ -57,7 +67,7 @@ GET    /health              -- service health
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| DATABASE_URL | PostgreSQL connection string | required |
+| DATABASE_URL | Database connection string | sqlite+aiosqlite:///./app.db |
 | SECRET_KEY | JWT signing key | required |
 | ACCESS_TOKEN_EXPIRE | Minutes | 30 |
 | REFRESH_TOKEN_EXPIRE | Days | 7 |
