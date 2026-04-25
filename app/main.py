@@ -7,11 +7,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.auth.router import router as auth_router
 from app.config import settings
 from app.database import Base, engine
-from app.models.item import Item  # noqa: F401
-from app.models.user import User  # noqa: F401
 from app.middleware.logging import LoggingMiddleware
 from app.middleware.rate_limit import RateLimitMiddleware
 from app.middleware.request_id import RequestIDMiddleware
+from app.models.item import Item  # noqa: F401
+from app.models.user import User  # noqa: F401
 from app.routers.items import router as items_router
 
 logging.basicConfig(

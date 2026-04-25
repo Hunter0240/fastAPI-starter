@@ -28,9 +28,7 @@ def create_access_token(user_id: str, role: str) -> str:
 
 
 def create_refresh_token(user_id: str) -> str:
-    expire = datetime.now(timezone.utc) + timedelta(
-        days=settings.refresh_token_expire
-    )
+    expire = datetime.now(timezone.utc) + timedelta(days=settings.refresh_token_expire)
     return jwt.encode(
         {"sub": user_id, "exp": expire, "type": "refresh"},
         settings.secret_key,

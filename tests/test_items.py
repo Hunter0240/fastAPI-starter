@@ -24,12 +24,8 @@ async def test_create_item_no_auth(client: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_list_items(client: AsyncClient, auth_headers: dict):
-    await client.post(
-        "/items/", json={"title": "Item 1"}, headers=auth_headers
-    )
-    await client.post(
-        "/items/", json={"title": "Item 2"}, headers=auth_headers
-    )
+    await client.post("/items/", json={"title": "Item 1"}, headers=auth_headers)
+    await client.post("/items/", json={"title": "Item 2"}, headers=auth_headers)
     resp = await client.get("/items/", headers=auth_headers)
     assert resp.status_code == 200
     data = resp.json()
@@ -87,9 +83,7 @@ async def test_pagination(client: AsyncClient, auth_headers: dict):
         await client.post(
             "/items/", json={"title": f"Page Item {i}"}, headers=auth_headers
         )
-    resp = await client.get(
-        "/items/?offset=0&limit=2", headers=auth_headers
-    )
+    resp = await client.get("/items/?offset=0&limit=2", headers=auth_headers)
     data = resp.json()
     assert len(data["items"]) == 2
     assert data["total"] >= 5

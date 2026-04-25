@@ -57,9 +57,7 @@ async def test_refresh(client: AsyncClient):
         json={"email": "refresh@example.com", "password": "secret123"},
     )
     refresh_token = reg.json()["refresh_token"]
-    resp = await client.post(
-        "/auth/refresh", json={"refresh_token": refresh_token}
-    )
+    resp = await client.post("/auth/refresh", json={"refresh_token": refresh_token})
     assert resp.status_code == 200
     assert "access_token" in resp.json()
 

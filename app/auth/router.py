@@ -25,7 +25,9 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 TAG_DESCRIPTION = "Register, login, refresh tokens, and view current user profile."
 
 
-@router.post("/register", response_model=TokenResponse, status_code=201, summary="Create account")
+@router.post(
+    "/register", response_model=TokenResponse, status_code=201, summary="Create account"
+)
 async def register(body: UserCreate, db: AsyncSession = Depends(get_db)):
     """Create a new user account and return access/refresh tokens."""
     result = await db.execute(select(User).where(User.email == body.email))
