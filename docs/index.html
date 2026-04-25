@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FastAPI Starter -- API Reference</title>
+  <meta name="description" content="Interactive API documentation for the FastAPI Starter template. JWT auth, CRUD, pagination, rate limiting.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --border: #e2e8f0;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --success: #16a34a;
+      --warning: #d97706;
+      --error: #dc2626;
+      --code-bg: #f1f5f9;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      background: var(--surface);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      z-index: 100;
+    }
+
+    .header h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .header-meta {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+
+    .badge-version {
+      background: var(--code-bg);
+      color: var(--text-primary);
+    }
+
+    .badge-method {
+      color: #fff;
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      min-width: 52px;
+      justify-content: center;
+    }
+
+    .badge-get { background: var(--accent); }
+    .badge-post { background: var(--success); }
+    .badge-put { background: var(--warning); }
+    .badge-delete { background: var(--error); }
+
+    .badge-auth {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-weight: 500;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: calc(100vh - 65px);
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 0;
+      position: sticky;
+      top: 65px;
+      height: calc(100vh - 65px);
+      overflow-y: auto;
+    }
+
+    .sidebar h3 {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      padding: 0 1.25rem;
+      margin-bottom: 0.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .sidebar h3:first-child { margin-top: 0; }
+
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 1.25rem;
+      font-size: 0.8125rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: background 0.1s;
+    }
+
+    .sidebar a:hover { background: var(--surface-alt); }
+    .sidebar a .badge-method { font-size: 0.5625rem; min-width: 38px; padding: 0.125rem 0.375rem; }
+
+    .content {
+      padding: 2rem 3rem;
+      max-width: 900px;
+    }
+
+    .intro {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .intro p {
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+      max-width: 640px;
+      margin-bottom: 1rem;
+    }
+
+    .intro pre {
+      background: var(--code-bg);
+      padding: 1rem 1.25rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      margin-top: 2.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .section-title:first-of-type { margin-top: 0; }
+
+    .endpoint {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .endpoint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.1s;
+    }
+
+    .endpoint-header:hover { background: var(--surface-alt); }
+
+    .endpoint-path {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .endpoint-summary {
+      color: var(--text-secondary);
+      font-size: 0.8125rem;
+      margin-left: auto;
+    }
+
+    .endpoint-body {
+      display: none;
+      padding: 1.25rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface-alt);
+    }
+
+    .endpoint.open .endpoint-body { display: block; }
+
+    .endpoint-body p {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .endpoint-body h4 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .endpoint-body h4:first-child { margin-top: 0; }
+
+    .schema-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+    }
+
+    .schema-table th {
+      text-align: left;
+      font-weight: 600;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+    }
+
+    .schema-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .schema-table tr:last-child td { border-bottom: none; }
+
+    .field-name {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 0.8125rem;
+    }
+
+    .field-type {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+    }
+
+    .field-required {
+      color: var(--error);
+      font-size: 0.6875rem;
+      font-weight: 600;
+    }
+
+    .response-code {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.125rem 0.5rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .response-2xx { background: #dcfce7; color: #166534; }
+    .response-4xx { background: #fef2f2; color: #991b1b; }
+
+    .github-link {
+      font-size: 0.8125rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .github-link:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .content { padding: 1.5rem; }
+      .header { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>FastAPI Starter</h1>
+  <div class="header-meta">
+    <span class="badge badge-version">v1.0.0</span>
+    <a href="https://github.com/Hunter0240/fastAPI-starter" class="github-link">GitHub</a>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="sidebar">
+    <h3>Overview</h3>
+    <a href="#introduction">Introduction</a>
+    <h3>Auth</h3>
+    <a href="#post-auth-register"><span class="badge badge-method badge-post">POST</span> /auth/register</a>
+    <a href="#post-auth-login"><span class="badge badge-method badge-post">POST</span> /auth/login</a>
+    <a href="#post-auth-refresh"><span class="badge badge-method badge-post">POST</span> /auth/refresh</a>
+    <a href="#get-auth-me"><span class="badge badge-method badge-get">GET</span> /auth/me</a>
+    <h3>Items</h3>
+    <a href="#post-items"><span class="badge badge-method badge-post">POST</span> /items</a>
+    <a href="#get-items"><span class="badge badge-method badge-get">GET</span> /items</a>
+    <a href="#get-items-id"><span class="badge badge-method badge-get">GET</span> /items/{id}</a>
+    <a href="#put-items-id"><span class="badge badge-method badge-put">PUT</span> /items/{id}</a>
+    <a href="#delete-items-id"><span class="badge badge-method badge-delete">DEL</span> /items/{id}</a>
+    <h3>System</h3>
+    <a href="#get-health"><span class="badge badge-method badge-get">GET</span> /health</a>
+  </nav>
+
+  <main class="content">
+    <div class="intro" id="introduction">
+      <p>
+        Production-ready REST API template with JWT authentication, role-based access
+        control, rate limiting, and async SQLAlchemy. Built as a starting point for
+        new projects -- clone it, define your models, and start building endpoints.
+      </p>
+      <p>
+        All protected endpoints require a Bearer token. Get one via <code>/auth/login</code>:
+      </p>
+      <pre>curl -X POST /auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "demo@example.com", "password": "demo1234"}'
+
+# Use the access_token in subsequent requests:
+curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
+    </div>
+
+    <h2 class="section-title" id="auth">Authentication</h2>
+
+    <div class="endpoint" id="post-auth-register">
+      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="badge badge-method badge-post">POST</span>
+        <span class="endpoint-path">/auth/register</span>
+        <span class="endpoint-summary">Create account</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Create a new user account and return access/refresh tokens.</p>
+        <h4>Request body</h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th><th></th></tr>
+          <tr><td class="field-name">email</td><td class="field-type">string (email)</td><td class="field-required">required</td></tr>
+          <tr><td class="field-name">password</td><td class="field-type">string</td><td class="field-required">required</td></tr>
+        </table>
+        <h4>Response <span class="response-code response-2xx">201</span></h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th></tr>
+          <tr><td class="field-name">access_token</td><td class="field-type">string</td></tr>
+          <tr><td class="field-name">refresh_token</td><td class="field-type">string</td></tr>
+          <tr><td class="field-name">token_type</td><td class="field-type">string ("bearer")</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="endpoint" id="post-auth-login">
+      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="badge badge-method badge-post">POST</span>
+        <span class="endpoint-path">/auth/login</span>
+        <span class="endpoint-summary">Get tokens</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Authenticate with email and password, returns access/refresh tokens.</p>
+        <h4>Request body</h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th><th></th></tr>
+          <tr><td class="field-name">email</td><td class="field-type">string (email)</td><td class="field-required">required</td></tr>
+          <tr><td class="field-name">password</td><td class="field-type">string</td><td class="field-required">required</td></tr>
+        </table>
+        <h4>Response <span class="response-code response-2xx">200</span></h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th></tr>
+          <tr><td class="field-name">access_token</td><td class="field-type">string</td></tr>
+          <tr><td class="field-name">refresh_token</td><td class="field-type">string</td></tr>
+          <tr><td class="field-name">token_type</td><td class="field-type">string ("bearer")</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="endpoint" id="post-auth-refresh">
+      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="badge badge-method badge-post">POST</span>
+        <span class="endpoint-path">/auth/refresh</span>
+        <span class="endpoint-summary">Refresh access token</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Exchange a valid refresh token for a new access/refresh token pair.</p>
+        <h4>Request body</h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th><th></th></tr>
+          <tr><td class="field-name">refresh_token</td><td class="field-type">string</td><td class="field-required">required</td></tr>
+        </table>
+        <h4>Response <span class="response-code response-2xx">200</span></h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th></tr>
+          <tr><td class="field-name">access_token</td><td class="field-type">string</td></tr>
+          <tr><td class="field-name">refresh_token</td><td class="field-type">string</td></tr>
+          <tr><td class="field-name">token_type</td><td class="field-type">string ("bearer")</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="endpoint" id="get-auth-me">
+      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="badge badge-method badge-get">GET</span>
+        <span class="endpoint-path">/auth/me</span>
+        <span class="endpoint-summary">Current user profile</span>
+        <span class="badge badge-auth">Bearer</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Return the profile of the currently authenticated user.</p>
+        <h4>Response <span class="response-code response-2xx">200</span></h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th></tr>
+          <tr><td class="field-name">id</td><td class="field-type">string (uuid)</td></tr>
+          <tr><td class="field-name">email</td><td class="field-type">string</td></tr>
+          <tr><td class="field-name">role</td><td class="field-type">string</td></tr>
+          <tr><td class="field-name">created_at</td><td class="field-type">string (datetime)</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="items">Items</h2>
+
+    <div class="endpoint" id="post-items">
+      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="badge badge-method badge-post">POST</span>
+        <span class="endpoint-path">/items/</span>
+        <span class="endpoint-summary">Create item</span>
+        <span class="badge badge-auth">Bearer</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Create a new item owned by the authenticated user.</p>
+        <h4>Request body</h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th><th></th></tr>
+          <tr><td class="field-name">title</td><td class="field-type">string</td><td class="field-required">required</td></tr>
+          <tr><td class="field-name">description</td><td class="field-type">string | null</td><td></td></tr>
+        </table>
+        <h4>Response <span class="response-code response-2xx">201</span></h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th></tr>
+          <tr><td class="field-name">id</td><td class="field-type">string (uuid)</td></tr>
+          <tr><td class="field-name">title</td><td class="field-type">string</td></tr>
+          <tr><td class="field-name">description</td><td class="field-type">string | null</td></tr>
+          <tr><td class="field-name">owner_id</td><td class="field-type">string (uuid)</td></tr>
+          <tr><td class="field-name">created_at</td><td class="field-type">string (datetime)</td></tr>
+          <tr><td class="field-name">updated_at</td><td class="field-type">string (datetime)</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="endpoint" id="get-items">
+      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="badge badge-method badge-get">GET</span>
+        <span class="endpoint-path">/items/</span>
+        <span class="endpoint-summary">List items (paginated)</span>
+        <span class="badge badge-auth">Bearer</span>
+      </div>
+      <div class="endpoint-body">
+        <p>List all items belonging to the authenticated user with offset/limit pagination.</p>
+        <h4>Query parameters</h4>
+        <table class="schema-table">
+          <tr><th>Param</th><th>Type</th><th>Default</th></tr>
+          <tr><td class="field-name">offset</td><td class="field-type">integer (>= 0)</td><td>0</td></tr>
+          <tr><td class="field-name">limit</td><td class="field-type">integer (1-100)</td><td>20</td></tr>
+        </table>
+        <h4>Response <span class="response-code response-2xx">200</span></h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th></tr>
+          <tr><td class="field-name">items</td><td class="field-type">ItemResponse[]</td></tr>
+          <tr><td class="field-name">total</td><td class="field-type">integer</td></tr>
+          <tr><td class="field-name">offset</td><td class="field-type">integer</td></tr>
+          <tr><td class="field-name">limit</td><td class="field-type">integer</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="endpoint" id="get-items-id">
+      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="badge badge-method badge-get">GET</span>
+        <span class="endpoint-path">/items/{item_id}</span>
+        <span class="endpoint-summary">Get item</span>
+        <span class="badge badge-auth">Bearer</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Get a single item by ID. Returns 404 if the item doesn't exist or belongs to another user.</p>
+        <h4>Response <span class="response-code response-2xx">200</span></h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th></tr>
+          <tr><td class="field-name">id</td><td class="field-type">string (uuid)</td></tr>
+          <tr><td class="field-name">title</td><td class="field-type">string</td></tr>
+          <tr><td class="field-name">description</td><td class="field-type">string | null</td></tr>
+          <tr><td class="field-name">owner_id</td><td class="field-type">string (uuid)</td></tr>
+          <tr><td class="field-name">created_at</td><td class="field-type">string (datetime)</td></tr>
+          <tr><td class="field-name">updated_at</td><td class="field-type">string (datetime)</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="endpoint" id="put-items-id">
+      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="badge badge-method badge-put">PUT</span>
+        <span class="endpoint-path">/items/{item_id}</span>
+        <span class="endpoint-summary">Update item</span>
+        <span class="badge badge-auth">Bearer</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Update an item's title and/or description. Only fields included in the request body are changed.</p>
+        <h4>Request body</h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th><th></th></tr>
+          <tr><td class="field-name">title</td><td class="field-type">string | null</td><td></td></tr>
+          <tr><td class="field-name">description</td><td class="field-type">string | null</td><td></td></tr>
+        </table>
+        <h4>Response <span class="response-code response-2xx">200</span></h4>
+        <table class="schema-table">
+          <tr><th>Field</th><th>Type</th></tr>
+          <tr><td class="field-name">id</td><td class="field-type">string (uuid)</td></tr>
+          <tr><td class="field-name">title</td><td class="field-type">string</td></tr>
+          <tr><td class="field-name">description</td><td class="field-type">string | null</td></tr>
+          <tr><td class="field-name">owner_id</td><td class="field-type">string (uuid)</td></tr>
+          <tr><td class="field-name">created_at</td><td class="field-type">string (datetime)</td></tr>
+          <tr><td class="field-name">updated_at</td><td class="field-type">string (datetime)</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="endpoint" id="delete-items-id">
+      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="badge badge-method badge-delete">DEL</span>
+        <span class="endpoint-path">/items/{item_id}</span>
+        <span class="endpoint-summary">Delete item</span>
+        <span class="badge badge-auth">Bearer</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Permanently delete an item. Returns 404 if the item doesn't exist or belongs to another user.</p>
+        <h4>Response <span class="response-code response-2xx">204</span></h4>
+        <p>No content.</p>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="system">System</h2>
+
+    <div class="endpoint" id="get-health">
+      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="badge badge-method badge-get">GET</span>
+        <span class="endpoint-path">/health</span>
+        <span class="endpoint-summary">Service health</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Returns service health status. No authentication required.</p>
+        <h4>Response <span class="response-code response-2xx">200</span></h4>
+        <pre>{"status": "ok"}</pre>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

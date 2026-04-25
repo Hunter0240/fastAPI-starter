@@ -28,8 +28,34 @@ async def lifespan(app: FastAPI):
     await engine.dispose()
 
 
+API_DESCRIPTION = """
+Production-ready REST API template with JWT authentication, role-based access
+control, rate limiting, and async SQLAlchemy. Built as a starting point for
+new projects -- clone it, define your models, and start building endpoints.
+
+## Authentication
+
+All protected endpoints require a Bearer token in the Authorization header.
+Get tokens via `/auth/login` or `/auth/register`, then pass the access token:
+
+```
+Authorization: Bearer <access_token>
+```
+
+Access tokens expire after 30 minutes. Use `/auth/refresh` with your refresh
+token to get a new access token without re-authenticating.
+
+## Demo credentials
+
+```
+Email:    demo@example.com
+Password: demo1234
+```
+"""
+
 app = FastAPI(
     title="FastAPI Starter",
+    description=API_DESCRIPTION,
     version="1.0.0",
     lifespan=lifespan,
 )

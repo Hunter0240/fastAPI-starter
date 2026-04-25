@@ -2,6 +2,8 @@
 
 A batteries-included FastAPI project template with authentication, database migrations, rate limiting, and Docker deployment. Clone it, define your models, and start building endpoints.
 
+**[Live API Reference](https://hunter0240.github.io/fastAPI-starter/)**
+
 ## Features
 
 - Modular router structure (one file per resource)
@@ -85,7 +87,7 @@ app/
   database.py          -- async engine, session factory
   auth/
     router.py          -- login, register, refresh, me
-    service.py         -- JWT creation/validation
+    service.py         -- JWT creation/validation, bcrypt hashing
     dependencies.py    -- get_current_user, require_role
   models/
     user.py
@@ -94,12 +96,13 @@ app/
     user.py
     item.py
   routers/
-    users.py
-    items.py
+    items.py           -- CRUD with ownership and pagination
   middleware/
-    rate_limit.py
-    request_id.py
-    logging.py
-migrations/
-tests/
+    rate_limit.py      -- per-IP rate limiting
+    request_id.py      -- UUID request tracing
+    logging.py         -- structured request logging
+migrations/            -- Alembic async migrations
+tests/                 -- pytest-asyncio test suite
+seed.py                -- demo user and sample data
+docs/                  -- GitHub Pages API reference
 ```
