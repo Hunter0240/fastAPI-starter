@@ -7,89 +7,150 @@
   <meta name="description" content="Interactive API documentation for the FastAPI Starter template. JWT auth, CRUD, pagination, rate limiting.">
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --text-primary: #1a1a2e;
-      --text-secondary: #4a4a68;
-      --surface: #ffffff;
-      --surface-alt: #f7f7fb;
-      --border: #dcdce5;
-      --accent: #4338ca;
-      --accent-hover: #3730a3;
-      --success: #15803d;
-      --warning: #b45309;
-      --error: #b91c1c;
-      --code-bg: #f0f0f6;
+    :root,
+    :root[data-theme="slate"] {
+      --text-primary: #1b2a4a;
+      --text-secondary: #475569;
+      --surface: #f8fafc;
+      --surface-alt: #f1f5f9;
+      --border: #cbd5e1;
+      --border-subtle: #e2e8f0;
+      --accent: #3b6eb5;
+      --color-get: #2563a8;
+      --color-post: #1a7a4a;
+      --color-put: #a16207;
+      --color-delete: #b42318;
+      --code-bg: #e8edf4;
       --font-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
     }
 
+    :root[data-theme="stone"] {
+      --text-primary: #292524;
+      --text-secondary: #57534e;
+      --surface: #fafaf9;
+      --surface-alt: #f5f5f4;
+      --border: #d6d3d1;
+      --border-subtle: #e7e5e4;
+      --accent: #8b6c3e;
+      --color-get: #78716c;
+      --color-post: #4d7c5f;
+      --color-put: #9a7b4f;
+      --color-delete: #a8523a;
+      --code-bg: #ece8e3;
+    }
+
+    :root[data-theme="carbon"] {
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --surface: #fcfcfd;
+      --surface-alt: #f4f5f7;
+      --border: #c4c8d0;
+      --border-subtle: #dfe1e6;
+      --accent: #4338ca;
+      --color-get: #3730a3;
+      --color-post: #166534;
+      --color-put: #b45309;
+      --color-delete: #991b1b;
+      --code-bg: #ebedf2;
+    }
+
+    /* Dark: Slate */
     @media (prefers-color-scheme: dark) {
-      :root:not([data-mode="light"]) {
+      :root:not([data-mode="light"]),
+      :root[data-theme="slate"]:not([data-mode="light"]) {
+        --text-primary: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --surface: #0f172a;
+        --surface-alt: #1e293b;
+        --border: #334155;
+        --border-subtle: #283548;
+        --accent: #60a5fa;
+        --color-get: #60a5fa;
+        --color-post: #4ade80;
+        --color-put: #fbbf24;
+        --color-delete: #f87171;
+        --code-bg: #1e293b;
+      }
+    }
+    :root[data-mode="dark"],
+    :root[data-theme="slate"][data-mode="dark"] {
+      --text-primary: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --surface: #0f172a;
+      --surface-alt: #1e293b;
+      --border: #334155;
+      --border-subtle: #283548;
+      --accent: #60a5fa;
+      --color-get: #60a5fa;
+      --color-post: #4ade80;
+      --color-put: #fbbf24;
+      --color-delete: #f87171;
+      --code-bg: #1e293b;
+    }
+
+    /* Dark: Stone */
+    @media (prefers-color-scheme: dark) {
+      :root[data-theme="stone"]:not([data-mode="light"]) {
+        --text-primary: #e7e5e4;
+        --text-secondary: #a8a29e;
+        --surface: #1c1917;
+        --surface-alt: #292524;
+        --border: #44403c;
+        --border-subtle: #352f2b;
+        --accent: #d4a574;
+        --color-get: #a8a29e;
+        --color-post: #6ee7a0;
+        --color-put: #d4a574;
+        --color-delete: #f87171;
+        --code-bg: #292524;
+      }
+    }
+    :root[data-theme="stone"][data-mode="dark"] {
+      --text-primary: #e7e5e4;
+      --text-secondary: #a8a29e;
+      --surface: #1c1917;
+      --surface-alt: #292524;
+      --border: #44403c;
+      --border-subtle: #352f2b;
+      --accent: #d4a574;
+      --color-get: #a8a29e;
+      --color-post: #6ee7a0;
+      --color-put: #d4a574;
+      --color-delete: #f87171;
+      --code-bg: #292524;
+    }
+
+    /* Dark: Carbon */
+    @media (prefers-color-scheme: dark) {
+      :root[data-theme="carbon"]:not([data-mode="light"]) {
         --text-primary: #e4e4ed;
         --text-secondary: #9e9eb8;
         --surface: #131320;
         --surface-alt: #1a1a2e;
         --border: #2a2a40;
+        --border-subtle: #222238;
         --accent: #818cf8;
-        --accent-hover: #a5b4fc;
-        --success: #4ade80;
-        --warning: #fbbf24;
-        --error: #f87171;
+        --color-get: #818cf8;
+        --color-post: #4ade80;
+        --color-put: #fbbf24;
+        --color-delete: #f87171;
         --code-bg: #1e1e32;
       }
     }
-
-    :root[data-mode="dark"] {
+    :root[data-theme="carbon"][data-mode="dark"] {
       --text-primary: #e4e4ed;
       --text-secondary: #9e9eb8;
       --surface: #131320;
       --surface-alt: #1a1a2e;
       --border: #2a2a40;
+      --border-subtle: #222238;
       --accent: #818cf8;
-      --accent-hover: #a5b4fc;
-      --success: #4ade80;
-      --warning: #fbbf24;
-      --error: #f87171;
+      --color-get: #818cf8;
+      --color-post: #4ade80;
+      --color-put: #fbbf24;
+      --color-delete: #f87171;
       --code-bg: #1e1e32;
-    }
-
-    :root[data-accent="teal"] {
-      --accent: #0d9488; --accent-hover: #0f766e;
-    }
-    :root[data-mode="dark"][data-accent="teal"],
-    :root:not([data-mode="light"])[data-accent="teal"] {
-      --accent: #2dd4bf; --accent-hover: #5eead4;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-mode="light"])[data-accent="teal"] {
-        --accent: #2dd4bf; --accent-hover: #5eead4;
-      }
-    }
-
-    :root[data-accent="rose"] {
-      --accent: #be123c; --accent-hover: #9f1239;
-    }
-    :root[data-mode="dark"][data-accent="rose"],
-    :root:not([data-mode="light"])[data-accent="rose"] {
-      --accent: #fb7185; --accent-hover: #fda4af;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-mode="light"])[data-accent="rose"] {
-        --accent: #fb7185; --accent-hover: #fda4af;
-      }
-    }
-
-    :root[data-accent="amber"] {
-      --accent: #b45309; --accent-hover: #92400e;
-    }
-    :root[data-mode="dark"][data-accent="amber"],
-    :root:not([data-mode="light"])[data-accent="amber"] {
-      --accent: #fbbf24; --accent-hover: #fcd34d;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-mode="light"])[data-accent="amber"] {
-        --accent: #fbbf24; --accent-hover: #fcd34d;
-      }
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -157,20 +218,20 @@
       justify-content: center;
     }
 
-    .badge-get { background: var(--accent); color: #fff; }
-    .badge-post { background: var(--success); color: #fff; }
-    .badge-put { background: var(--warning); color: #fff; }
-    .badge-delete { background: var(--error); color: #fff; }
+    .badge-get { background: var(--color-get); color: #fff; }
+    .badge-post { background: var(--color-post); color: #fff; }
+    .badge-put { background: var(--color-put); color: #fff; }
+    .badge-delete { background: var(--color-delete); color: #fff; }
 
     :root[data-mode="dark"] .badge-get,
     :root[data-mode="dark"] .badge-post,
     :root[data-mode="dark"] .badge-put,
-    :root[data-mode="dark"] .badge-delete { color: #131320; }
+    :root[data-mode="dark"] .badge-delete { color: #0f172a; }
     @media (prefers-color-scheme: dark) {
       :root:not([data-mode="light"]) .badge-get,
       :root:not([data-mode="light"]) .badge-post,
       :root:not([data-mode="light"]) .badge-put,
-      :root:not([data-mode="light"]) .badge-delete { color: #131320; }
+      :root:not([data-mode="light"]) .badge-delete { color: #0f172a; }
     }
 
     .badge-auth {
@@ -366,7 +427,7 @@
     }
 
     .field-required {
-      color: var(--error);
+      color: var(--color-delete);
       font-size: 0.6875rem;
       font-weight: 600;
     }
@@ -575,12 +636,11 @@
         </div>
         <hr class="settings-divider">
         <div class="settings-section">
-          <div class="settings-label">Accent</div>
+          <div class="settings-label">Theme</div>
           <div class="accent-btns">
-            <button class="accent-swatch" data-accent="indigo" title="Indigo" onclick="setAccent('indigo')"><span class="accent-swatch-inner" style="background:#4338ca"></span></button>
-            <button class="accent-swatch" data-accent="teal" title="Teal" onclick="setAccent('teal')"><span class="accent-swatch-inner" style="background:#0d9488"></span></button>
-            <button class="accent-swatch" data-accent="rose" title="Rose" onclick="setAccent('rose')"><span class="accent-swatch-inner" style="background:#be123c"></span></button>
-            <button class="accent-swatch" data-accent="amber" title="Amber" onclick="setAccent('amber')"><span class="accent-swatch-inner" style="background:#b45309"></span></button>
+            <button class="accent-swatch" data-theme-opt="slate" title="Slate" onclick="setTheme('slate')"><span class="accent-swatch-inner" style="background:#3b6eb5"></span></button>
+            <button class="accent-swatch" data-theme-opt="stone" title="Stone" onclick="setTheme('stone')"><span class="accent-swatch-inner" style="background:#8b6c3e"></span></button>
+            <button class="accent-swatch" data-theme-opt="carbon" title="Carbon" onclick="setTheme('carbon')"><span class="accent-swatch-inner" style="background:#4338ca"></span></button>
           </div>
         </div>
       </div>
@@ -913,15 +973,15 @@ function setMode(mode) {
   updateModeButtons(mode);
 }
 
-function setAccent(accent) {
+function setTheme(theme) {
   var root = document.documentElement;
-  if (accent === 'indigo') {
-    root.removeAttribute('data-accent');
+  if (theme === 'slate') {
+    root.removeAttribute('data-theme');
   } else {
-    root.setAttribute('data-accent', accent);
+    root.setAttribute('data-theme', theme);
   }
-  localStorage.setItem('docs-accent', accent);
-  updateAccentButtons(accent);
+  localStorage.setItem('docs-theme', theme);
+  updateThemeButtons(theme);
 }
 
 function updateModeButtons(mode) {
@@ -930,19 +990,19 @@ function updateModeButtons(mode) {
   });
 }
 
-function updateAccentButtons(accent) {
+function updateThemeButtons(theme) {
   document.querySelectorAll('.accent-swatch').forEach(function(btn) {
-    btn.classList.toggle('active', btn.getAttribute('data-accent') === accent);
+    btn.classList.toggle('active', btn.getAttribute('data-theme-opt') === theme);
   });
 }
 
 (function initSettings() {
   var mode = localStorage.getItem('docs-mode') || 'auto';
-  var accent = localStorage.getItem('docs-accent') || 'indigo';
+  var theme = localStorage.getItem('docs-theme') || 'slate';
   if (mode !== 'auto') document.documentElement.setAttribute('data-mode', mode);
-  if (accent !== 'indigo') document.documentElement.setAttribute('data-accent', accent);
+  if (theme !== 'slate') document.documentElement.setAttribute('data-theme', theme);
   updateModeButtons(mode);
-  updateAccentButtons(accent);
+  updateThemeButtons(theme);
 })();
 </script>
 
