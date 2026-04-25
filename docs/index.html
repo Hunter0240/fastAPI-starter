@@ -5,25 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FastAPI Starter -- API Reference</title>
   <meta name="description" content="Interactive API documentation for the FastAPI Starter template. JWT auth, CRUD, pagination, rate limiting.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --text-primary: #0f172a;
-      --text-secondary: #475569;
+      --text-primary: #1a1a2e;
+      --text-secondary: #4a4a68;
       --surface: #ffffff;
-      --surface-alt: #f8fafc;
-      --border: #e2e8f0;
-      --accent: #2563eb;
-      --accent-hover: #1d4ed8;
-      --success: #16a34a;
-      --warning: #d97706;
-      --error: #dc2626;
-      --code-bg: #f1f5f9;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --surface-alt: #f7f7fb;
+      --border: #dcdce5;
+      --accent: #4338ca;
+      --accent-hover: #3730a3;
+      --success: #15803d;
+      --warning: #b45309;
+      --error: #b91c1c;
+      --code-bg: #f0f0f6;
+      --font-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
     }
 
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text-primary: #e4e4ed;
+        --text-secondary: #9e9eb8;
+        --surface: #131320;
+        --surface-alt: #1a1a2e;
+        --border: #2a2a40;
+        --accent: #818cf8;
+        --accent-hover: #a5b4fc;
+        --success: #4ade80;
+        --warning: #fbbf24;
+        --error: #f87171;
+        --code-bg: #1e1e32;
+      }
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
 
     body {
       font-family: var(--font-sans);
@@ -83,10 +104,14 @@
       justify-content: center;
     }
 
-    .badge-get { background: var(--accent); }
-    .badge-post { background: var(--success); }
-    .badge-put { background: var(--warning); }
-    .badge-delete { background: var(--error); }
+    .badge-get { background: var(--accent); color: #fff; }
+    .badge-post { background: var(--success); color: #fff; }
+    .badge-put { background: var(--warning); color: #fff; }
+    .badge-delete { background: var(--error); color: #fff; }
+
+    @media (prefers-color-scheme: dark) {
+      .badge-get, .badge-post, .badge-put, .badge-delete { color: #131320; }
+    }
 
     .badge-auth {
       background: none;
@@ -128,7 +153,8 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.375rem 1.25rem;
+      padding: 0.625rem 1.25rem;
+      min-height: 44px;
       font-size: 0.8125rem;
       color: var(--text-primary);
       text-decoration: none;
@@ -192,6 +218,13 @@
       cursor: pointer;
       user-select: none;
       transition: background 0.1s;
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+      text-align: left;
     }
 
     .endpoint-header:hover { background: var(--surface-alt); }
@@ -291,6 +324,11 @@
     .response-2xx { background: #dcfce7; color: #166534; }
     .response-4xx { background: #fef2f2; color: #991b1b; }
 
+    @media (prefers-color-scheme: dark) {
+      .response-2xx { background: #14532d; color: #bbf7d0; }
+      .response-4xx { background: #450a0a; color: #fecaca; }
+    }
+
     .github-link {
       font-size: 0.8125rem;
       color: var(--accent);
@@ -300,26 +338,59 @@
 
     .github-link:hover { text-decoration: underline; }
 
+    .mobile-nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.375rem 0.625rem;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      min-height: 44px;
+      min-width: 44px;
+      align-items: center;
+      justify-content: center;
+    }
+
     @media (max-width: 768px) {
       .layout { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
+      .sidebar {
+        display: none;
+        position: fixed;
+        top: 57px;
+        left: 0;
+        right: 0;
+        height: auto;
+        max-height: calc(100vh - 57px);
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+        z-index: 99;
+        padding: 0.75rem 0;
+      }
+      .sidebar.open { display: block; }
       .content { padding: 1.5rem; }
-      .header { padding: 1rem; }
+      .header { padding: 0.75rem 1rem; }
+      .mobile-nav-toggle { display: inline-flex; }
     }
   </style>
 </head>
 <body>
 
-<div class="header">
+<header class="header">
   <h1>FastAPI Starter</h1>
   <div class="header-meta">
+    <button class="mobile-nav-toggle" aria-expanded="false" aria-controls="sidebar-nav" onclick="toggleMobileNav()">Menu</button>
     <span class="badge badge-version">v1.0.0</span>
     <a href="https://github.com/Hunter0240/fastAPI-starter" class="github-link">GitHub</a>
   </div>
-</div>
+</header>
 
 <div class="layout">
-  <nav class="sidebar">
+  <nav class="sidebar" id="sidebar-nav" aria-label="API navigation">
     <h3>Overview</h3>
     <a href="#introduction">Introduction</a>
     <h3>Auth</h3>
@@ -358,11 +429,11 @@ curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
     <h2 class="section-title" id="auth">Authentication</h2>
 
     <div class="endpoint" id="post-auth-register">
-      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+      <button class="endpoint-header" aria-expanded="false" onclick="toggleEndpoint(this)">
         <span class="badge badge-method badge-post">POST</span>
         <span class="endpoint-path">/auth/register</span>
         <span class="endpoint-summary">Create account</span>
-      </div>
+      </button>
       <div class="endpoint-body">
         <p>Create a new user account and return access/refresh tokens.</p>
         <h4>Request body</h4>
@@ -382,11 +453,11 @@ curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
     </div>
 
     <div class="endpoint" id="post-auth-login">
-      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+      <button class="endpoint-header" aria-expanded="false" onclick="toggleEndpoint(this)">
         <span class="badge badge-method badge-post">POST</span>
         <span class="endpoint-path">/auth/login</span>
         <span class="endpoint-summary">Get tokens</span>
-      </div>
+      </button>
       <div class="endpoint-body">
         <p>Authenticate with email and password, returns access/refresh tokens.</p>
         <h4>Request body</h4>
@@ -406,11 +477,11 @@ curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
     </div>
 
     <div class="endpoint" id="post-auth-refresh">
-      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+      <button class="endpoint-header" aria-expanded="false" onclick="toggleEndpoint(this)">
         <span class="badge badge-method badge-post">POST</span>
         <span class="endpoint-path">/auth/refresh</span>
         <span class="endpoint-summary">Refresh access token</span>
-      </div>
+      </button>
       <div class="endpoint-body">
         <p>Exchange a valid refresh token for a new access/refresh token pair.</p>
         <h4>Request body</h4>
@@ -429,12 +500,12 @@ curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
     </div>
 
     <div class="endpoint" id="get-auth-me">
-      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+      <button class="endpoint-header" aria-expanded="false" onclick="toggleEndpoint(this)">
         <span class="badge badge-method badge-get">GET</span>
         <span class="endpoint-path">/auth/me</span>
         <span class="endpoint-summary">Current user profile</span>
         <span class="badge badge-auth">Bearer</span>
-      </div>
+      </button>
       <div class="endpoint-body">
         <p>Return the profile of the currently authenticated user.</p>
         <h4>Response <span class="response-code response-2xx">200</span></h4>
@@ -451,12 +522,12 @@ curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
     <h2 class="section-title" id="items">Items</h2>
 
     <div class="endpoint" id="post-items">
-      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+      <button class="endpoint-header" aria-expanded="false" onclick="toggleEndpoint(this)">
         <span class="badge badge-method badge-post">POST</span>
         <span class="endpoint-path">/items/</span>
         <span class="endpoint-summary">Create item</span>
         <span class="badge badge-auth">Bearer</span>
-      </div>
+      </button>
       <div class="endpoint-body">
         <p>Create a new item owned by the authenticated user.</p>
         <h4>Request body</h4>
@@ -479,12 +550,12 @@ curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
     </div>
 
     <div class="endpoint" id="get-items">
-      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+      <button class="endpoint-header" aria-expanded="false" onclick="toggleEndpoint(this)">
         <span class="badge badge-method badge-get">GET</span>
         <span class="endpoint-path">/items/</span>
         <span class="endpoint-summary">List items (paginated)</span>
         <span class="badge badge-auth">Bearer</span>
-      </div>
+      </button>
       <div class="endpoint-body">
         <p>List all items belonging to the authenticated user with offset/limit pagination.</p>
         <h4>Query parameters</h4>
@@ -505,12 +576,12 @@ curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
     </div>
 
     <div class="endpoint" id="get-items-id">
-      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+      <button class="endpoint-header" aria-expanded="false" onclick="toggleEndpoint(this)">
         <span class="badge badge-method badge-get">GET</span>
         <span class="endpoint-path">/items/{item_id}</span>
         <span class="endpoint-summary">Get item</span>
         <span class="badge badge-auth">Bearer</span>
-      </div>
+      </button>
       <div class="endpoint-body">
         <p>Get a single item by ID. Returns 404 if the item doesn't exist or belongs to another user.</p>
         <h4>Response <span class="response-code response-2xx">200</span></h4>
@@ -527,12 +598,12 @@ curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
     </div>
 
     <div class="endpoint" id="put-items-id">
-      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+      <button class="endpoint-header" aria-expanded="false" onclick="toggleEndpoint(this)">
         <span class="badge badge-method badge-put">PUT</span>
         <span class="endpoint-path">/items/{item_id}</span>
         <span class="endpoint-summary">Update item</span>
         <span class="badge badge-auth">Bearer</span>
-      </div>
+      </button>
       <div class="endpoint-body">
         <p>Update an item's title and/or description. Only fields included in the request body are changed.</p>
         <h4>Request body</h4>
@@ -555,12 +626,12 @@ curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
     </div>
 
     <div class="endpoint" id="delete-items-id">
-      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+      <button class="endpoint-header" aria-expanded="false" onclick="toggleEndpoint(this)">
         <span class="badge badge-method badge-delete">DEL</span>
         <span class="endpoint-path">/items/{item_id}</span>
         <span class="endpoint-summary">Delete item</span>
         <span class="badge badge-auth">Bearer</span>
-      </div>
+      </button>
       <div class="endpoint-body">
         <p>Permanently delete an item. Returns 404 if the item doesn't exist or belongs to another user.</p>
         <h4>Response <span class="response-code response-2xx">204</span></h4>
@@ -571,11 +642,11 @@ curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
     <h2 class="section-title" id="system">System</h2>
 
     <div class="endpoint" id="get-health">
-      <div class="endpoint-header" onclick="this.parentElement.classList.toggle('open')">
+      <button class="endpoint-header" aria-expanded="false" onclick="toggleEndpoint(this)">
         <span class="badge badge-method badge-get">GET</span>
         <span class="endpoint-path">/health</span>
         <span class="endpoint-summary">Service health</span>
-      </div>
+      </button>
       <div class="endpoint-body">
         <p>Returns service health status. No authentication required.</p>
         <h4>Response <span class="response-code response-2xx">200</span></h4>
@@ -584,6 +655,28 @@ curl /items/ -H "Authorization: Bearer &lt;access_token&gt;"</pre>
     </div>
   </main>
 </div>
+
+<script>
+function toggleEndpoint(btn) {
+  var endpoint = btn.parentElement;
+  var isOpen = endpoint.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+}
+
+function toggleMobileNav() {
+  var sidebar = document.getElementById('sidebar-nav');
+  var btn = document.querySelector('.mobile-nav-toggle');
+  var isOpen = sidebar.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+}
+
+document.getElementById('sidebar-nav').addEventListener('click', function(e) {
+  if (e.target.tagName === 'A' && window.innerWidth <= 768) {
+    this.classList.remove('open');
+    document.querySelector('.mobile-nav-toggle').setAttribute('aria-expanded', 'false');
+  }
+});
+</script>
 
 </body>
 </html>
