@@ -2,6 +2,8 @@
 
 A batteries-included FastAPI project template with authentication, database migrations, rate limiting, and Docker deployment. Clone it, define your models, and start building endpoints.
 
+**[API Documentation](https://hunter0240.github.io/fastAPI-starter/)**
+
 ## Features
 
 - Modular router structure (one file per resource)
