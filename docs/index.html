@@ -5,152 +5,149 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FastAPI Starter -- API Reference</title>
   <meta name="description" content="Interactive API documentation for the FastAPI Starter template. JWT auth, CRUD, pagination, rate limiting.">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root,
     :root[data-theme="slate"] {
-      --text-primary: #1b2a4a;
-      --text-secondary: #475569;
-      --surface: #f8fafc;
-      --surface-alt: #f1f5f9;
-      --border: #cbd5e1;
-      --border-subtle: #e2e8f0;
-      --accent: #3b6eb5;
-      --color-get: #2563a8;
-      --color-post: #1a7a4a;
-      --color-put: #a16207;
-      --color-delete: #b42318;
-      --code-bg: #e8edf4;
-      --font-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+      --text-primary: oklch(0.18 0.01 250);
+      --text-secondary: oklch(0.45 0.01 250);
+      --surface: oklch(0.985 0.003 250);
+      --surface-alt: oklch(0.965 0.004 250);
+      --border: oklch(0.88 0.006 250);
+      --border-subtle: oklch(0.93 0.004 250);
+      --accent: oklch(0.55 0.18 255);
+      --color-get: oklch(0.55 0.13 230);
+      --color-post: oklch(0.55 0.15 155);
+      --color-put: oklch(0.6 0.13 75);
+      --color-delete: oklch(0.55 0.17 25);
+      --code-bg: oklch(0.965 0.004 250);
+      --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+      --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', monospace;
     }
 
     :root[data-theme="stone"] {
-      --text-primary: #292524;
-      --text-secondary: #57534e;
-      --surface: #fafaf9;
-      --surface-alt: #f5f5f4;
-      --border: #d6d3d1;
-      --border-subtle: #e7e5e4;
-      --accent: #8b6c3e;
-      --color-get: #78716c;
-      --color-post: #4d7c5f;
-      --color-put: #9a7b4f;
-      --color-delete: #a8523a;
-      --code-bg: #ece8e3;
+      --text-primary: oklch(0.2 0.015 50);
+      --text-secondary: oklch(0.45 0.015 50);
+      --surface: oklch(0.975 0.006 70);
+      --surface-alt: oklch(0.955 0.008 70);
+      --border: oklch(0.85 0.01 70);
+      --border-subtle: oklch(0.9 0.007 70);
+      --accent: oklch(0.55 0.15 50);
+      --color-get: oklch(0.52 0.1 220);
+      --color-post: oklch(0.52 0.12 155);
+      --color-put: oklch(0.58 0.11 65);
+      --color-delete: oklch(0.52 0.14 25);
+      --code-bg: oklch(0.955 0.008 70);
     }
 
     :root[data-theme="carbon"] {
-      --text-primary: #0f172a;
-      --text-secondary: #334155;
-      --surface: #fcfcfd;
-      --surface-alt: #f4f5f7;
-      --border: #c4c8d0;
-      --border-subtle: #dfe1e6;
-      --accent: #4338ca;
-      --color-get: #3730a3;
-      --color-post: #166534;
-      --color-put: #b45309;
-      --color-delete: #991b1b;
-      --code-bg: #ebedf2;
+      --text-primary: oklch(0.12 0.005 250);
+      --text-secondary: oklch(0.35 0.008 250);
+      --surface: oklch(0.995 0.001 250);
+      --surface-alt: oklch(0.965 0.002 250);
+      --border: oklch(0.82 0.004 250);
+      --border-subtle: oklch(0.9 0.002 250);
+      --accent: oklch(0.5 0.22 255);
+      --color-get: oklch(0.5 0.15 235);
+      --color-post: oklch(0.5 0.17 155);
+      --color-put: oklch(0.55 0.16 75);
+      --color-delete: oklch(0.5 0.2 25);
+      --code-bg: oklch(0.965 0.002 250);
     }
 
-    /* Dark: Slate */
     @media (prefers-color-scheme: dark) {
       :root:not([data-mode="light"]),
       :root[data-theme="slate"]:not([data-mode="light"]) {
-        --text-primary: #e2e8f0;
-        --text-secondary: #94a3b8;
-        --surface: #0f172a;
-        --surface-alt: #1e293b;
-        --border: #334155;
-        --border-subtle: #283548;
-        --accent: #60a5fa;
-        --color-get: #60a5fa;
-        --color-post: #4ade80;
-        --color-put: #fbbf24;
-        --color-delete: #f87171;
-        --code-bg: #1e293b;
+        --text-primary: oklch(0.92 0.005 250);
+        --text-secondary: oklch(0.65 0.008 250);
+        --surface: oklch(0.14 0.008 250);
+        --surface-alt: oklch(0.18 0.008 250);
+        --border: oklch(0.28 0.008 250);
+        --border-subtle: oklch(0.22 0.006 250);
+        --accent: oklch(0.65 0.18 255);
+        --color-get: oklch(0.7 0.11 230);
+        --color-post: oklch(0.7 0.13 155);
+        --color-put: oklch(0.75 0.11 75);
+        --color-delete: oklch(0.7 0.15 25);
+        --code-bg: oklch(0.18 0.008 250);
       }
     }
     :root[data-mode="dark"],
     :root[data-theme="slate"][data-mode="dark"] {
-      --text-primary: #e2e8f0;
-      --text-secondary: #94a3b8;
-      --surface: #0f172a;
-      --surface-alt: #1e293b;
-      --border: #334155;
-      --border-subtle: #283548;
-      --accent: #60a5fa;
-      --color-get: #60a5fa;
-      --color-post: #4ade80;
-      --color-put: #fbbf24;
-      --color-delete: #f87171;
-      --code-bg: #1e293b;
+      --text-primary: oklch(0.92 0.005 250);
+      --text-secondary: oklch(0.65 0.008 250);
+      --surface: oklch(0.14 0.008 250);
+      --surface-alt: oklch(0.18 0.008 250);
+      --border: oklch(0.28 0.008 250);
+      --border-subtle: oklch(0.22 0.006 250);
+      --accent: oklch(0.65 0.18 255);
+      --color-get: oklch(0.7 0.11 230);
+      --color-post: oklch(0.7 0.13 155);
+      --color-put: oklch(0.75 0.11 75);
+      --color-delete: oklch(0.7 0.15 25);
+      --code-bg: oklch(0.18 0.008 250);
     }
 
-    /* Dark: Stone */
     @media (prefers-color-scheme: dark) {
       :root[data-theme="stone"]:not([data-mode="light"]) {
-        --text-primary: #e7e5e4;
-        --text-secondary: #a8a29e;
-        --surface: #1c1917;
-        --surface-alt: #292524;
-        --border: #44403c;
-        --border-subtle: #352f2b;
-        --accent: #d4a574;
-        --color-get: #a8a29e;
-        --color-post: #6ee7a0;
-        --color-put: #d4a574;
-        --color-delete: #f87171;
-        --code-bg: #292524;
+        --text-primary: oklch(0.9 0.008 70);
+        --text-secondary: oklch(0.65 0.01 70);
+        --surface: oklch(0.15 0.01 50);
+        --surface-alt: oklch(0.19 0.01 50);
+        --border: oklch(0.3 0.01 50);
+        --border-subtle: oklch(0.23 0.008 50);
+        --accent: oklch(0.65 0.15 50);
+        --color-get: oklch(0.7 0.09 220);
+        --color-post: oklch(0.7 0.1 155);
+        --color-put: oklch(0.75 0.09 65);
+        --color-delete: oklch(0.7 0.12 25);
+        --code-bg: oklch(0.19 0.01 50);
       }
     }
     :root[data-theme="stone"][data-mode="dark"] {
-      --text-primary: #e7e5e4;
-      --text-secondary: #a8a29e;
-      --surface: #1c1917;
-      --surface-alt: #292524;
-      --border: #44403c;
-      --border-subtle: #352f2b;
-      --accent: #d4a574;
-      --color-get: #a8a29e;
-      --color-post: #6ee7a0;
-      --color-put: #d4a574;
-      --color-delete: #f87171;
-      --code-bg: #292524;
+      --text-primary: oklch(0.9 0.008 70);
+      --text-secondary: oklch(0.65 0.01 70);
+      --surface: oklch(0.15 0.01 50);
+      --surface-alt: oklch(0.19 0.01 50);
+      --border: oklch(0.3 0.01 50);
+      --border-subtle: oklch(0.23 0.008 50);
+      --accent: oklch(0.65 0.15 50);
+      --color-get: oklch(0.7 0.09 220);
+      --color-post: oklch(0.7 0.1 155);
+      --color-put: oklch(0.75 0.09 65);
+      --color-delete: oklch(0.7 0.12 25);
+      --code-bg: oklch(0.19 0.01 50);
     }
 
-    /* Dark: Carbon */
     @media (prefers-color-scheme: dark) {
       :root[data-theme="carbon"]:not([data-mode="light"]) {
-        --text-primary: #e4e4ed;
-        --text-secondary: #9e9eb8;
-        --surface: #131320;
-        --surface-alt: #1a1a2e;
-        --border: #2a2a40;
-        --border-subtle: #222238;
-        --accent: #818cf8;
-        --color-get: #818cf8;
-        --color-post: #4ade80;
-        --color-put: #fbbf24;
-        --color-delete: #f87171;
-        --code-bg: #1e1e32;
+        --text-primary: oklch(0.93 0.004 250);
+        --text-secondary: oklch(0.7 0.006 250);
+        --surface: oklch(0.12 0.005 250);
+        --surface-alt: oklch(0.16 0.005 250);
+        --border: oklch(0.25 0.006 250);
+        --border-subtle: oklch(0.2 0.004 250);
+        --accent: oklch(0.7 0.2 255);
+        --color-get: oklch(0.72 0.12 235);
+        --color-post: oklch(0.72 0.14 155);
+        --color-put: oklch(0.78 0.12 75);
+        --color-delete: oklch(0.72 0.17 25);
+        --code-bg: oklch(0.16 0.005 250);
       }
     }
     :root[data-theme="carbon"][data-mode="dark"] {
-      --text-primary: #e4e4ed;
-      --text-secondary: #9e9eb8;
-      --surface: #131320;
-      --surface-alt: #1a1a2e;
-      --border: #2a2a40;
-      --border-subtle: #222238;
-      --accent: #818cf8;
-      --color-get: #818cf8;
-      --color-post: #4ade80;
-      --color-put: #fbbf24;
-      --color-delete: #f87171;
-      --code-bg: #1e1e32;
+      --text-primary: oklch(0.93 0.004 250);
+      --text-secondary: oklch(0.7 0.006 250);
+      --surface: oklch(0.12 0.005 250);
+      --surface-alt: oklch(0.16 0.005 250);
+      --border: oklch(0.25 0.006 250);
+      --border-subtle: oklch(0.2 0.004 250);
+      --accent: oklch(0.7 0.2 255);
+      --color-get: oklch(0.72 0.12 235);
+      --color-post: oklch(0.72 0.14 155);
+      --color-put: oklch(0.78 0.12 75);
+      --color-delete: oklch(0.72 0.17 25);
+      --code-bg: oklch(0.16 0.005 250);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -164,8 +161,10 @@
       font-family: var(--font-sans);
       color: var(--text-primary);
       background: var(--surface);
-      line-height: 1.6;
+      line-height: 1.5;
+      font-size: 0.875rem;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .header {
@@ -181,8 +180,8 @@
     }
 
     .header h1 {
-      font-size: 1.25rem;
-      font-weight: 700;
+      font-size: 1rem;
+      font-weight: 600;
       letter-spacing: -0.02em;
     }
 
@@ -190,7 +189,7 @@
       display: flex;
       gap: 1rem;
       align-items: center;
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
       color: var(--text-secondary);
     }
 
@@ -199,7 +198,7 @@
       align-items: center;
       padding: 0.2rem 0.6rem;
       border-radius: 4px;
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
       font-weight: 600;
       font-family: var(--font-mono);
     }
@@ -210,7 +209,7 @@
     }
 
     .badge-method {
-      color: #fff;
+      color: oklch(1 0 0);
       font-size: 0.6875rem;
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -218,20 +217,14 @@
       justify-content: center;
     }
 
-    .badge-get { background: var(--color-get); color: #fff; }
-    .badge-post { background: var(--color-post); color: #fff; }
-    .badge-put { background: var(--color-put); color: #fff; }
-    .badge-delete { background: var(--color-delete); color: #fff; }
+    .badge-get { background: var(--color-get); }
+    .badge-post { background: var(--color-post); }
+    .badge-put { background: var(--color-put); }
+    .badge-delete { background: var(--color-delete); }
 
-    :root[data-mode="dark"] .badge-get,
-    :root[data-mode="dark"] .badge-post,
-    :root[data-mode="dark"] .badge-put,
-    :root[data-mode="dark"] .badge-delete { color: #0f172a; }
+    :root[data-mode="dark"] .badge-method { color: oklch(0.13 0.005 250); }
     @media (prefers-color-scheme: dark) {
-      :root:not([data-mode="light"]) .badge-get,
-      :root:not([data-mode="light"]) .badge-post,
-      :root:not([data-mode="light"]) .badge-put,
-      :root:not([data-mode="light"]) .badge-delete { color: #0f172a; }
+      :root:not([data-mode="light"]) .badge-method { color: oklch(0.13 0.005 250); }
     }
 
     .badge-auth {
@@ -276,10 +269,10 @@
       gap: 0.5rem;
       padding: 0.625rem 1.25rem;
       min-height: 44px;
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
       color: var(--text-primary);
       text-decoration: none;
-      transition: background 0.1s;
+      transition: background 150ms ease-out;
     }
 
     .sidebar a:hover { background: var(--surface-alt); }
@@ -298,7 +291,7 @@
 
     .intro p {
       color: var(--text-secondary);
-      font-size: 0.9375rem;
+      font-size: 0.875rem;
       max-width: 640px;
       margin-bottom: 1rem;
     }
@@ -308,15 +301,15 @@
       padding: 1rem 1.25rem;
       border-radius: 6px;
       font-family: var(--font-mono);
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
       line-height: 1.7;
       overflow-x: auto;
       margin-top: 1rem;
     }
 
     .section-title {
-      font-size: 1.125rem;
-      font-weight: 700;
+      font-size: 1rem;
+      font-weight: 600;
       margin-bottom: 1.5rem;
       margin-top: 2.5rem;
       letter-spacing: -0.01em;
@@ -338,7 +331,7 @@
       padding: 0.875rem 1.25rem;
       cursor: pointer;
       user-select: none;
-      transition: background 0.1s;
+      transition: background 150ms ease-out;
       width: 100%;
       border: none;
       background: transparent;
@@ -352,13 +345,13 @@
 
     .endpoint-path {
       font-family: var(--font-mono);
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       font-weight: 500;
     }
 
     .endpoint-summary {
       color: var(--text-secondary);
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
       margin-left: auto;
     }
 
@@ -372,13 +365,13 @@
     .endpoint.open .endpoint-body { display: block; }
 
     .endpoint-body p {
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       color: var(--text-secondary);
       margin-bottom: 1rem;
     }
 
     .endpoint-body h4 {
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -389,10 +382,20 @@
 
     .endpoint-body h4:first-child { margin-top: 0; }
 
+    .endpoint-body pre {
+      background: var(--code-bg);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+
     .schema-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
     }
 
     .schema-table th {
@@ -417,12 +420,12 @@
     .field-name {
       font-family: var(--font-mono);
       font-weight: 500;
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
     }
 
     .field-type {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
       color: var(--accent);
     }
 
@@ -438,22 +441,22 @@
       padding: 0.125rem 0.5rem;
       border-radius: 4px;
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
       font-weight: 600;
     }
 
-    .response-2xx { background: #dcfce7; color: #166534; }
-    .response-4xx { background: #fef2f2; color: #991b1b; }
+    .response-2xx { background: oklch(0.92 0.05 155); color: oklch(0.3 0.1 155); }
+    .response-4xx { background: oklch(0.92 0.04 25); color: oklch(0.35 0.12 25); }
 
-    :root[data-mode="dark"] .response-2xx { background: #14532d; color: #bbf7d0; }
-    :root[data-mode="dark"] .response-4xx { background: #450a0a; color: #fecaca; }
+    :root[data-mode="dark"] .response-2xx { background: oklch(0.25 0.06 155); color: oklch(0.8 0.1 155); }
+    :root[data-mode="dark"] .response-4xx { background: oklch(0.22 0.05 25); color: oklch(0.8 0.08 25); }
     @media (prefers-color-scheme: dark) {
-      :root:not([data-mode="light"]) .response-2xx { background: #14532d; color: #bbf7d0; }
-      :root:not([data-mode="light"]) .response-4xx { background: #450a0a; color: #fecaca; }
+      :root:not([data-mode="light"]) .response-2xx { background: oklch(0.25 0.06 155); color: oklch(0.8 0.1 155); }
+      :root:not([data-mode="light"]) .response-4xx { background: oklch(0.22 0.05 25); color: oklch(0.8 0.08 25); }
     }
 
     .github-link {
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
       color: var(--accent);
       text-decoration: none;
       font-weight: 500;
@@ -476,7 +479,7 @@
       background: var(--surface);
       color: var(--text-secondary);
       cursor: pointer;
-      transition: color 0.15s, border-color 0.15s;
+      transition: color 150ms ease-out, border-color 150ms ease-out;
     }
 
     .settings-btn:hover {
@@ -493,7 +496,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 24px oklch(0 0 0 / 0.1);
       z-index: 200;
       padding: 1rem;
     }
@@ -523,13 +526,13 @@
       flex: 1;
       padding: 0.375rem 0;
       font-family: var(--font-sans);
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
       font-weight: 500;
       border: none;
       cursor: pointer;
       background: var(--surface);
       color: var(--text-secondary);
-      transition: background 0.15s, color 0.15s;
+      transition: background 150ms ease-out, color 150ms ease-out;
     }
 
     .mode-btn + .mode-btn { border-left: 1px solid var(--border); }
@@ -552,7 +555,7 @@
       cursor: pointer;
       padding: 0;
       background: none;
-      transition: border-color 0.15s;
+      transition: border-color 150ms ease-out;
     }
 
     .accent-swatch.active { border-color: var(--text-primary); }
@@ -578,7 +581,7 @@
       padding: 0.375rem 0.625rem;
       cursor: pointer;
       font-family: var(--font-sans);
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
       font-weight: 500;
       color: var(--text-primary);
       min-height: 44px;
@@ -638,9 +641,9 @@
         <div class="settings-section">
           <div class="settings-label">Theme</div>
           <div class="accent-btns">
-            <button class="accent-swatch" data-theme-opt="slate" title="Slate" onclick="setTheme('slate')"><span class="accent-swatch-inner" style="background:#3b6eb5"></span></button>
-            <button class="accent-swatch" data-theme-opt="stone" title="Stone" onclick="setTheme('stone')"><span class="accent-swatch-inner" style="background:#8b6c3e"></span></button>
-            <button class="accent-swatch" data-theme-opt="carbon" title="Carbon" onclick="setTheme('carbon')"><span class="accent-swatch-inner" style="background:#4338ca"></span></button>
+            <button class="accent-swatch" data-theme-opt="slate" title="Slate" onclick="setTheme('slate')"><span class="accent-swatch-inner" style="background:oklch(0.55 0.18 255)"></span></button>
+            <button class="accent-swatch" data-theme-opt="stone" title="Stone" onclick="setTheme('stone')"><span class="accent-swatch-inner" style="background:oklch(0.55 0.15 50)"></span></button>
+            <button class="accent-swatch" data-theme-opt="carbon" title="Carbon" onclick="setTheme('carbon')"><span class="accent-swatch-inner" style="background:oklch(0.5 0.22 255)"></span></button>
           </div>
         </div>
       </div>
