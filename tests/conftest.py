@@ -1,4 +1,7 @@
+import os
 from collections.abc import AsyncGenerator
+
+os.environ.setdefault("SECRET_KEY", "test-secret-key-that-is-at-least-32-characters-long")
 
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient

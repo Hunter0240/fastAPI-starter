@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -11,7 +11,7 @@ from app.schemas.item import ItemCreate, ItemResponse, ItemUpdate, PaginatedItem
 router = APIRouter(prefix="/items", tags=["items"])
 
 
-@router.post("/", response_model=ItemResponse, status_code=201, summary="Create item")
+@router.post("/", response_model=ItemResponse, status_code=201)
 async def create_item(
     body: ItemCreate,
     user: User = Depends(get_current_user),
@@ -24,7 +24,7 @@ async def create_item(
     return item
 
 
-@router.get("/", response_model=PaginatedItems, summary="List items (paginated)")
+@router.get("/", response_model=PaginatedItems)
 async def list_items(
     offset: int = Query(0, ge=0),
     limit: int = Query(20, ge=1, le=100),
@@ -43,7 +43,7 @@ async def list_items(
     )
 
 
-@router.get("/{item_id}", response_model=ItemResponse, summary="Get item")
+@router.get("/{item_id}", response_model=ItemResponse)
 async def get_item(
     item_id: str,
     user: User = Depends(get_current_user),
@@ -58,7 +58,7 @@ async def get_item(
     return item
 
 
-@router.put("/{item_id}", response_model=ItemResponse, summary="Update item")
+@router.put("/{item_id}", response_model=ItemResponse)
 async def update_item(
     item_id: str,
     body: ItemUpdate,
@@ -79,7 +79,7 @@ async def update_item(
     return item
 
 
-@router.delete("/{item_id}", status_code=204, summary="Delete item")
+@router.delete("/{item_id}", status_code=204)
 async def delete_item(
     item_id: str,
     user: User = Depends(get_current_user),
