@@ -8,4 +8,5 @@ build/
 venv/
 .DS_Store
 *.db
+data/
 .pytest_cache/
