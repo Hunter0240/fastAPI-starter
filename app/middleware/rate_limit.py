@@ -1,4 +1,5 @@
 import time
+from collections import deque
 
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -13,7 +14,7 @@ _EVICT_INTERVAL = 60.0
 class RateLimitMiddleware(BaseHTTPMiddleware):
     def __init__(self, app):
         super().__init__(app)
-        self._buckets: dict[str, list[float]] = {}
+        self._buckets: dict[str, deque[float]] = {}
         self._last_evict: float = 0.0
 
     def _evict_stale(self, now: float) -> None:
@@ -33,8 +34,13 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         if len(self._buckets) > _MAX_BUCKETS:
             self._evict_stale(now)
 
-        hits = self._buckets.get(client_ip, [])
-        hits = [t for t in hits if t > window_start]
+        hits = self._buckets.get(client_ip)
+        if hits is None:
+            hits = deque()
+            self._buckets[client_ip] = hits
+
+        while hits and hits[0] <= window_start:
+            hits.popleft()
 
         if len(hits) >= settings.rate_limit_max:
             return JSONResponse(
@@ -43,6 +49,5 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             )
 
         hits.append(now)
-        self._buckets[client_ip] = hits
         self._evict_stale(now)
         return await call_next(request)
